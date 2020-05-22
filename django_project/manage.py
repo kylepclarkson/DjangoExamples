@@ -3,6 +3,8 @@
 import os
 import sys
 
+# user: admin
+# password: abc123
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
