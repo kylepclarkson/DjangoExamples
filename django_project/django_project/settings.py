@@ -124,5 +124,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 # Set default bootstrap template.
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# The redirect after a user logs in.
+LOGIN_REDIRECT_URL = 'blog-home'
+
+# Specify login location? 
+LOGIN_URL = 'login'
