@@ -124,6 +124,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# === ===
+
+# Full path to where uploaded files will be save.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# How media is accessed through browser.
+MEDIA_URL = '/media/'
 
 # Set default bootstrap template.
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -131,5 +137,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # The redirect after a user logs in.
 LOGIN_REDIRECT_URL = 'blog-home'
 
-# Specify login location? 
+# Specify login location?
 LOGIN_URL = 'login'
