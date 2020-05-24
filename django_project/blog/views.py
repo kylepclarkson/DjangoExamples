@@ -1,5 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import (ListView, DetailView, CreateView)
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView)
 from .models import Post        # Import Post class.
 
 def home(request):
@@ -21,13 +27,13 @@ class PostListView(ListView):
     # Specify name (key) of object.
     context_object_name = 'posts'
     # Order posts
-    order = ['-date_posted']
+    ordering = ['-date_posted']
 
 class PostDetailView(DetailView):
     model = Post
 
-
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
+    # LoginRequiredMixin - requires to be login.
     model = Post
     # Set fields of post
     fields = ['title', 'content']
@@ -36,6 +42,39 @@ class PostCreateView(CreateView):
         ''' Override method to set author. '''
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    # LoginRequiredMixin - requires to be login.
+    model = Post
+    # Set fields of post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        ''' Override method to set author. '''
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        """ Test if user can update post. """
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        else:
+            return False
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    # The url if delete is successful.
+    success_url = '/'
+
+    def test_func(self):
+        """ Test if user can update post. """
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        else:
+            return False
 
 
 def about(request):
