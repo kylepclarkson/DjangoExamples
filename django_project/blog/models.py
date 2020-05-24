@@ -13,7 +13,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    # TODO P10 31:30
     def get_absolute_url(self):
         """ Return path to specific post. Called after post is created. """
         return reverse('post-detail', kwargs={'pk': self.pk})
