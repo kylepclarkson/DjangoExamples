@@ -4,19 +4,24 @@ from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 
 
 class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+    # Find snippets using pk
+    # snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+
+    snippets = serializers.HyperlinkedRelatedField(many=True, view_name='snippet-detail', read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'snippets']
+        fields = ['url', 'id', 'username', 'snippets']
 
 class SnippetSerializer(serializers.ModelSerializer):
 
+    # Find snippets using hyperlinking.
+    owner = serializers.ReadOnlyField(source='owner.username')
+    snippets = serializers.HyperlinkedIdentityField(view_name='snippet-highlight', format='html')
 
     class Meta:
         model = Snippet
-        fields = ['id', 'title', 'code', 'linenos', 'language', 'style']
-        owner = serializers.ReadOnlyField(source='owner.username')
+        fields = ['url', 'id', 'highlight', 'owner', 'title', 'code', 'linenos', 'language', 'style']
 
 # =======
 # # Creating a Serializer instead of using ModelSerializer
