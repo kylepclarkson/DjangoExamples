@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{# Used for both CourseCreatView and CourseUpdateView. If object exists, we are updating.  #}
+{% block title %}
+    {% if object %}
+        Edit Course "{{ object.title }}"
+    {% else %}
+        Create New Course
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if object %}
+            Edit Course "{{ object.title }}"
+        {% else %}
+            Create New Course
+        {% endif %}
+    </h1>
+    <div class="module">
+        <h2>Course info</h2>
+        <form method="POST">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Save course"></p>
+        </form>
+    </div>
+{% endblock %}
