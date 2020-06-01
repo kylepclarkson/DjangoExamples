@@ -55,14 +55,14 @@ class CourseDeleteView(OwnerCourseMixin, DeleteView):
 
 
 # For retrieving the courses of a single user.
-class ManageCourseListView(ListView):
-    model = Course
-    template_name = 'courses/manage/course/list.html'
-
-    # Retrieve courses for current user only.
-    def get_queryset(self):
-        querySet = super(ManageCourseListView, self).get_queryset()
-        return querySet.filter(owner=self.request.user)
+# class ManageCourseListView(ListView):
+#     model = Course
+#     template_name = 'courses/manage/course/list.html'
+#
+#     # Retrieve courses for current user only.
+#     def get_queryset(self):
+#         querySet = super().get_queryset()
+#         return querySet.filter(owner=self.request.user)
 
 # This formset handles add, update, and delete of modules for specific course.
 class CourseModuleUpdateView(TemplateResponseMixin, View):

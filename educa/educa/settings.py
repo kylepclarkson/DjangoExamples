@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
+    'rest_framework',
+    'embed_video',
     'courses.apps.CoursesConfig',
     'students.apps.StudentsConfig',
     # ===
@@ -104,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -126,3 +133,9 @@ STATIC_URL = '/static/'
 
 # redirect after student login if no next parameter is specified in request.
 LOGIN_REDIRECT_URL = reverse_lazy('student_course_list')
+
+# Needed to serve media files with dev server. For debugging only.
+MEDIA_URL = '/media/'       # base URL to serve uploaded media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')   # Local path where files are located.
+
+
