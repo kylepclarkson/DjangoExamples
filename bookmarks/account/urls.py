@@ -29,5 +29,6 @@ urlpatterns = [
     #      auth_views.PasswordResetDoneView.as_view(),
     #      name='password_reset_complete'),
     # Since we're using Django's views, we can map all urls using the below.
-    path('', include('django.contrib.auth.urls'))
+    path('', include('django.contrib.auth.urls')),
+    path('register/', views.register, name='register'),
 ]
