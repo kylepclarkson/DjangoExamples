@@ -15,7 +15,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/BuildingAnAPI" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/educa" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bookmarks" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
