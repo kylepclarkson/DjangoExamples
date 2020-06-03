@@ -35,6 +35,9 @@ LOGOUT_URL = 'logout'
 # Email for password reset
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# For serving media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Application definition
 

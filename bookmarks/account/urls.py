@@ -31,4 +31,5 @@ urlpatterns = [
     # Since we're using Django's views, we can map all urls using the below.
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
+    path('edit/', views.edit, name='edit'),
 ]
