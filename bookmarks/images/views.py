@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.http import require_POST
 
 from .forms import ImageCreationForm
 
@@ -22,7 +24,7 @@ def image_create(request):
 
             messages.success(request, 'Image added successfully')
 
-            # redirect user to URL of new image TODO
+            # redirect user to URL of new image
             return redirect(new_item.get_absolute_url())
 
     else:
@@ -33,3 +35,12 @@ def image_create(request):
                   {'section': 'images',
                    'form': form})
 
+# @login_required
+# @require_POST
+# def image_like(request):
+#     image_id = request.POST.get('id')
+#     action = request.POST.get('action')
+#
+#     if image_id and action:
+#         try:
+#             image = Image.objects.get(id='image_id')
