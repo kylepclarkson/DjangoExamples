@@ -31,10 +31,15 @@ ALLOWED_HOSTS = []
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# Session IDs
+
+CART_SESSION_ID = 'cart'
+
 # Application definition
 
 INSTALLED_APPS = [
     'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
     # ============
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +50,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # For accessing sessions
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # ======
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
