@@ -52,7 +52,7 @@ class Cart(object):
         '''
         product_ids = self.cart.keys()
         # Get product objects
-        products = Product.objects.filter(category_id__in=product_ids)
+        products = Product.objects.filter(id__in=product_ids)
         cart = self.cart.copy()
 
         for product in products:
