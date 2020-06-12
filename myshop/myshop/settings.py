@@ -40,6 +40,7 @@ CART_SESSION_ID = 'cart'
 INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
     # ============
     'django.contrib.admin',
     'django.contrib.auth',
