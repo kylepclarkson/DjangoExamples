@@ -1,4 +1,4 @@
-from celery import task
+from celery import task, Celery
 from django.core.mail import send_mail
 
 from .models import Order

@@ -43,7 +43,7 @@ BRAINTREE_MERCHANT_ID = 'p6tghrn5vqwyknv5'
 BRAINTREE_PUBLIC_KEY = 'pvy2mc66y7qndsdm'
 BRAINTREE_PRIVATE_KEY = '04cb0276fd35385de2e2ad33ca1cad91'
 
-BRAINTREE_CONFIG = braintree.Configuration(
+BRAINTREE_CONF = braintree.Configuration(
     braintree.Environment.Sandbox,
     BRAINTREE_MERCHANT_ID,
     BRAINTREE_PUBLIC_KEY,
