@@ -20,6 +20,7 @@ class Order(models.Model):
 
     class Meta:
         ordering = ('-created',)
+        verbose_name = 'order'
 
     def __str__(self):
         return f'Order {self.id}'
