@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponse
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 import csv
 import datetime
@@ -37,8 +39,12 @@ def export_to_csv(modeladmin, request, queryset):
         writer.writerow(data_row)
 
     return response
-
 export_to_csv.short_description = 'Export to CSV'
+
+# Returns an HTML link for the admin_order_detail url to link to specific orders in admin page.
+def order_detail(obj):
+    url = reverse('orders:admin_order_detail', args=[obj.id])
+    return mark_safe(f'<a href="{url}">View</a>')
 
 class OrderItemInLine(admin.TabularInline):
 
@@ -50,7 +56,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     list_display = ['id', 'first_name', 'last_name', 'address',
                     'postal_code', 'city', 'paid',
-                    'created', 'updated']
+                    'created', 'updated', order_detail]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInLine]
 
