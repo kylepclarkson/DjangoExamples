@@ -10,6 +10,11 @@ from .models import Order, OrderItem
 
 # Register your models here.
 
+class OrderItemInLine(admin.TabularInline):
+
+    model = OrderItem
+    raw_id_fields = ['product']
+
 # Custom admin action to export Orders to csv file.
 def export_to_csv(modeladmin, request, queryset):
 
@@ -43,20 +48,24 @@ export_to_csv.short_description = 'Export to CSV'
 
 # Returns an HTML link for the admin_order_detail url to link to specific orders in admin page.
 def order_detail(obj):
+
     url = reverse('orders:admin_order_detail', args=[obj.id])
     return mark_safe(f'<a href="{url}">View</a>')
 
-class OrderItemInLine(admin.TabularInline):
+def order_pdf(obj):
 
-    model = OrderItem
-    raw_id_fields = ['product']
+    url = reverse('orders:admin_order_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}">PDF</a>')
+order_pdf.short_description = 'Invoice'
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
 
     list_display = ['id', 'first_name', 'last_name', 'address',
                     'postal_code', 'city', 'paid',
-                    'created', 'updated', order_detail]
+                    'created', 'updated',
+                    order_detail,
+                    order_pdf]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInLine]
 
