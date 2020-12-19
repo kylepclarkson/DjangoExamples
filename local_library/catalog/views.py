@@ -1,5 +1,11 @@
 from django.shortcuts import render
+from django.views import generic
+
 from .models import *
+
+class BookListView(generic.ListView):
+    # get all records of Book model
+    model = Book
 
 def index(request):
     """ The home page of the site. """
