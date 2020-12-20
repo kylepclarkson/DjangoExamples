@@ -1,0 +1,11 @@
+<h1>Posts</h1>
+
+<ul>
+    {% for post in object_list %}
+        <li>
+            <a href="{% url 'article-detail' post.pk %}"> {# reference 'name' of url, with the pk of post to match <int:pk> #}
+                {{ post.title }} -- {{ post.author.first_name }}, {{ post.author.last_name }} </a></li>
+        {{ post.body }}
+        <hr>
+    {% endfor %}
+</ul>
