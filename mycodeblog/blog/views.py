@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, EditForm
 
 # def home(request):
 #     return render(request, 'home.html', context={})
@@ -27,4 +28,17 @@ class AddPostView(CreateView):
     # specify fields from model to put on page. Set PostForm.
     # fields = '__all__'
     # fields = ['title', 'body']
+
+class UpdatePostView(UpdateView):
+
+    model = Post
+    form_class = EditForm
+
+    template_name = 'update_post.html'
+
+class DeletePostView(DeleteView):
+
+    model = Post
+    template_name = 'delete_post.html'
+    success_url = reverse_lazy('home')
 
