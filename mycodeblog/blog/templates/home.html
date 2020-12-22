@@ -6,8 +6,9 @@
 <ul>
     {% for post in object_list %}
         <li>
-            <a href="{% url 'article-detail' post.pk %}"> {# reference 'name' of url, with the pk of post to match <int:pk> #}
-                {{ post.title }}</a> -
+            {# reference 'name' of url, with the pk of post to match <int:pk> #}
+            <a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a> -
+            <a href="{% url 'category' post.category|slugify %}">{{ post.category }} </a> -
             {{ post.author.first_name }} {{ post.author.last_name }} -
             {{ post.created_date }}
 

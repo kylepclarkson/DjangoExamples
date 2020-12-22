@@ -48,3 +48,18 @@ class DeletePostView(DeleteView):
     template_name = 'delete_post.html'
     success_url = reverse_lazy('home')
 
+
+'''
+Function based view. 
+Name 'categories' must match
+path('category/<str:categories>/',CategoryView, name='category')
+'''
+def CategoryView(request, categories):
+    # Get all posts belonging to category.
+    # Replace '-' with ' ' (slugify) (#TODO see how to do better.)
+    categories = categories.replace('-', ' ')
+    category_posts = Post.objects.filter(categoires=categories)
+
+    return render(request, 'categories.html', context={'categories':categories.title(),
+                                                'category_posts':category_posts})
+

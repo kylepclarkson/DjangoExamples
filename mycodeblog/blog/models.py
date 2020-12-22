@@ -32,4 +32,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title + ' | ' + str(self.author)
 
+# class Comment(models.Model):
+#     ''' A comment on a post model. '''
+#     # related_name: allows us to reference comments on blog page.
+#     post =          models.ForeignKey(Post, related_name='comments',on_delete=models.CASCADE)
+#     name =          models.CharField(max_length='255')
+
+
 
