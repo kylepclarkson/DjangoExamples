@@ -10,10 +10,20 @@ from .forms import PostForm, EditForm
 
 # Class-based view
 class HomeView(ListView):
-
+    # Get all post ordered newest first.
     model = Post
     template_name = 'home.html'
     ordering = ['-id']
+
+    def get_context_data(self, *args, **kwargs):
+        ''' Set context. '''
+        # Get all category names.
+        category_menu = Category.objects.all()
+
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
+        context['category_menu'] = category_menu
+        return context
+
 
 class ArticleDetailView(DetailView):
 
@@ -58,8 +68,15 @@ def CategoryView(request, categories):
     # Get all posts belonging to category.
     # Replace '-' with ' ' (slugify) (#TODO see how to do better.)
     categories = categories.replace('-', ' ')
-    category_posts = Post.objects.filter(categoires=categories)
+    category_posts = Post.objects.filter(category=categories)
 
     return render(request, 'categories.html', context={'categories':categories.title(),
                                                 'category_posts':category_posts})
 
+
+def CategoryListView(request):
+    categories_menu_list = Category.objects.all()
+
+    return render(request, 'category_list.html', {'categories_menu_list': categories_menu_list})
+
+# 3 steps: create view, create template, create url
