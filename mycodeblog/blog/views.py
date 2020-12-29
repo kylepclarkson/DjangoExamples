@@ -77,6 +77,6 @@ def CategoryView(request, categories):
 def CategoryListView(request):
     categories_menu_list = Category.objects.all()
 
-    return render(request, 'category_list.html', {'categories_menu_list': categories_menu_list})
+    return render(request, 'categories_list.html', {'categories_menu_list': categories_menu_list})
 
 # 3 steps: create view, create template, create url
