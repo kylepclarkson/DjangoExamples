@@ -1,0 +1,15 @@
+
+
+{% block content %}
+    <h1>Posts</h1>
+    <br>
+
+    {% for post in object_list %}
+        <li>
+            <h4>{{ post.title }} | created on: {{ post.created_on_date }}</h4>
+            <small>{{ post.body }}</small>
+            <hr>
+        </li>
+    {% endfor %}
+
+{% endblock %}

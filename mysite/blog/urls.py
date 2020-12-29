@@ -1,7 +1,9 @@
 from django.urls import path
 
+from .views import IndexView
+
 urlpatterns = [
-    # TODO add Home View
+    path('',  IndexView.as_view(), name='home'),
 
 ]
 
