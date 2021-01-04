@@ -11,7 +11,7 @@ class Question(models.Model):
 
     def was_published_recently(self):
         """ Return True of question was posted within the last 24 hours. """
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1) and self.pub_date <= timezone.now()
 
     def __str__(self):
         return self.question_text

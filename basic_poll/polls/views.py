@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.views import generic
+from django.utils import timezone
 
 import datetime
 from .models import Question, Choice
@@ -38,13 +39,18 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """ Return five most recent questions. """
-        return Question.objects.order_by('-pub_date')[:5]
+        return Question.objects.filter(
+            pub_date__lte=timezone.now(),    # Dates less than the current time.
+        ).order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DeleteView):
     model = Question
     template_name = 'polls/detail.html'
 
+    def get_queryset(self):
+        """ Exclude questions that are not yet published. """
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 class ResultsView(generic.DetailView):
     model = Question
@@ -68,7 +74,6 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        #
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 
