@@ -12,6 +12,10 @@ class Question(models.Model):
     def was_published_recently(self):
         """ Return True of question was posted within the last 24 hours. """
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1) and self.pub_date <= timezone.now()
+    # Override function fields for display in admin page.
+    was_published_recently.admin_order_field = 'pub_date'
+    was_published_recently.boolean = True
+    was_published_recently.short_description = 'Published recently?'
 
     def __str__(self):
         return self.question_text
