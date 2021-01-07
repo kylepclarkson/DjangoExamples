@@ -8,7 +8,8 @@ class BlogPost(models.Model):
 
     title =             models.CharField(max_length=255)
     body =              models.TextField()
-    created_on_date =   models.DateField(auto_now=True)
+    date_created =      models.DateTimeField(auto_now=True)
+    last_modified =     models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title + ' created on ' + str(self.created_on_date)
+        return self.title + ' created on ' + str(self.date_created)
