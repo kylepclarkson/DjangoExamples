@@ -2,23 +2,39 @@
 {% load static %}
 
 {% block content %}
-    <body class="text-center">
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidebar-nav">
 
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <main role="main" class="inner cover">
-            <h1 class="cover-heading">Cover your page.</h1>
-            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit
-                the text, and add your own fullscreen background photo to make it your own.</p>
-            <p class="lead">
-                <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-            </p>
-        </main>
-
-        <footer class="mastfoot mt-auto">
-            <div class="inner">
-                <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
-                        href="https://twitter.com/mdo">@mdo</a>.</p>
             </div>
-        </footer>
+
+            <div class="col-sm-8">
+                <div class="bg-">
+                    <h1>Kyle Clarkson</h1>
+                </div>
+
+                <div class="bg-1">
+                    <h3>Hello there!</h3>
+                    <h3>Welcome to my webpage</h3>
+                </div>
+
+                <div class="bg-2">
+                    <h4>I'm trying to change the world</h4>
+                    <p>
+                        and hopefully for the better. I feel like I've gotten a good start on this.
+                        From small, everyday interactions with strangers, friends, and family
+                        to the time I've spent helping students with their maths and computer
+                        science course. Yet there is a lot more to do.
+                    </p>
+                    <p>
+                        That's why I'm a programmer
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-sm-2 sidebar-nav">
+
+            </div>
+        </div>
     </div>
 {% endblock %}
