@@ -13,5 +13,12 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\Kyle\Documents\GitHub\DjangoExamples\personal_website\db.sqlite3</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="db [3]" uuid="4951d03b-d05b-413d-af73-9fdde99be6a4">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Kyle\Documents\GitHub\DjangoExamples\mysite\db.sqlite3</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

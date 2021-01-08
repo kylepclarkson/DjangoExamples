@@ -7,11 +7,15 @@
     <br>
 
     {% for post in object_list %}
-        <li>
-            <h4>{{ post.title }} | created on: {{ post.created_on_date }}</h4>
-            <small>{{ post.body }}</small>
+        <ul>
+            <h4>{{ post.title }} | created on: {{ post.date_created }}</h4>
+            {% if post.date_created is not post.date_modified %}
+                <h4>Last modified {{ post.last_modified }}</h4>
+            {% endif %}
+            <small>{{ post.snippet|safe }}</small> <br/>
+            <small>{{ post.body|safe }}</small>
             <hr>
-        </li>
+        </ul>
     {% endfor %}
 
 {% endblock %}

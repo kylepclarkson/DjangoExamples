@@ -20,6 +20,7 @@ class Publication(models.Model):
     title =             models.CharField(max_length=200)
     description =       models.CharField(max_length=500)
     year_published =    models.CharField(max_length=5)
+    publisher =         models.CharField(max_length=200, null=True)
     authors =           models.ManyToManyField(Author)
     file =              models.FileField(blank=True, null=True,
                                          upload_to='research/%Y/')

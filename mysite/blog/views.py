@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from .models import BlogPost
+from .models import Post
 
 # Create your views here.
 
 class BlogIndex(ListView):
-
-    model = BlogPost
+    model = Post
     template_name = 'blog/blog.html'
 
 
