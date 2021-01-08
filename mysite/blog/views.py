@@ -8,6 +8,7 @@ from .models import Post
 class BlogIndex(ListView):
     model = Post
     template_name = 'blog/blog.html'
+    ordering = ['-id']
 
 
 
