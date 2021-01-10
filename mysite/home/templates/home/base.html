@@ -9,9 +9,8 @@
     <meta name="author" content="">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <!-- css styles -->
     {% block styles %}
     {% endblock %}
@@ -26,7 +25,7 @@
 <body>
 <!-- Nav Bar -->
 <section id="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{% url 'home:home' %}">Home</a>
         <!-- Toggler for small screens -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -41,9 +40,6 @@
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" href="#">Research</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#">Contact</a>
-                </li>
             </ul>
         </div>
     </nav>
@@ -55,7 +51,7 @@
 {% endblock %}
 <!-- End content block -->
 <!-- Footer -->
-<footer class="py-4 bg-dark">
+<footer class="py-5 bg-dark">
     <div class="container">
         <p class="text-center text-white m-1">Copyright &copy; 2020 Kyle Clarkson</p>
     </div>
