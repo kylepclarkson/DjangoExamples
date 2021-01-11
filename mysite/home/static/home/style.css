@@ -1,4 +1,13 @@
 
+body {
+  padding-top: 55px;
+}
+@media (max-width: 980px) {
+  body {
+    padding-top: 0px;
+  }
+}
+
 .masthead#home {
     background-color: #0e54eb;
     color: aliceblue;
@@ -9,3 +18,12 @@ hr.divider {
     border-width: 0.4rem;
     border-color: #e4c642;
 }
+
+.post {
+    margin: 0 0 0 25px;
+}
+
+.date {
+
+}
+

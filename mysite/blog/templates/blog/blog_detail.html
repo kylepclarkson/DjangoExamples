@@ -8,9 +8,9 @@
 
 {% block title %}
     {% if title %}
-        <title>{{ title }}</title>
+        {{ title }}
     {% else %}
-        <title>Blog - Kyle Clarkson</title>
+        Blog - Kyle Clarkson
     {% endif %}
 {% endblock %}
 
@@ -20,7 +20,6 @@
     {% if post.date_created != post.date_modified %}
         <p>Last modified: {{ post.date_modified }}</p>
     {% endif %}
-    <hr>
 
     {{ post.body|safe }}
     <br>

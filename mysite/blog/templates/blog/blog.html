@@ -14,23 +14,33 @@
 {% endblock %}
 
 {% block content %}
+    {# Blog posts #}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 vh-100">
+                    {% for post in object_list %}
+                        <div class="post">
+                            {#  Post title #}
 
-    <p>Hello, blog page. </p>
+                            <h2>
+                                <a href="{% url 'blog:blog-detail' post.pk %}">{{ post.title }}</a>
+                            </h2>
+                            <small>Written on:
+                                {{ post.date_created|date:"d M Y" }}
+                                {{ post.date_created|time:"h:i a" }}
+                            </small>
 
-    <h1>Posts</h1>
-    <br>
-
-    {% for post in object_list %}
-        <ul>
-            {#  Post title #}
-            <a href="{% url 'blog:blog-detail' post.pk %}">{{ post.title }}</a>
-            <p>Written on: {{ post.date_created|date:"D d M Y"  }} </p>
-            {% if post.date_created != post.date_modified %}
-                <p>Last modified: {{ post.date_modified }}</p>
-            {% endif %}
-            <p>{{ post.snippet|safe }}</p>
-            <hr>
-        </ul>
-    {% endfor %}
-
+                            {% if post.date_created != post.date_modified %}
+                                <br/><small>Last modified: {{ post.date_modified|date:"d M Y" }}
+                                {{ post.date_modified|time:"h:i a" }}</small>
+                            {% endif %}
+                            <h5>{{ post.snippet|safe }}</h5>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
