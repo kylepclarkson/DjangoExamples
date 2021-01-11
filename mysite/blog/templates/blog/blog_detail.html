@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static "home/style.css" %}">
+{% endblock %}
+
+{% block title %}
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Blog - Kyle Clarkson</title>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>Written on: {{ post.date_created|date:"D d M Y"  }} </p>
+    {% if post.date_created != post.date_modified %}
+        <p>Last modified: {{ post.date_modified }}</p>
+    {% endif %}
+    <hr>
+
+    {{ post.body|safe }}
+    <br>
+    <a class='btn-primary'  href="{% url 'blog:blog-index' %}">Back</a>
+
+{% endblock %}

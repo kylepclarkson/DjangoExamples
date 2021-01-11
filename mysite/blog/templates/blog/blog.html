@@ -1,4 +1,18 @@
 {% extends 'home\base.html' %}
+{% load static %}
+{% block styles %}
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{% static "home/style.css" %}">
+{% endblock %}
+
+{% block title %}
+    {% if title %}
+        {{ title }}
+    {% else %}
+        Blog - Kyle Clarkson
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
     <p>Hello, blog page. </p>
@@ -8,12 +22,13 @@
 
     {% for post in object_list %}
         <ul>
-            <h4>{{ post.title }} | created on: {{ post.date_created|date:"D d M Y" }}</h4>
+            {#  Post title #}
+            <a href="{% url 'blog:blog-detail' post.pk %}">{{ post.title }}</a>
+            <p>Written on: {{ post.date_created|date:"D d M Y"  }} </p>
             {% if post.date_created != post.date_modified %}
-                <h4>Last modified {{ post.date_modified }}</h4>
+                <p>Last modified: {{ post.date_modified }}</p>
             {% endif %}
-            <small>{{ post.snippet|safe }}</small> <br/>
-            <small>{{ post.body|safe }}</small>
+            <p>{{ post.snippet|safe }}</p>
             <hr>
         </ul>
     {% endfor %}
