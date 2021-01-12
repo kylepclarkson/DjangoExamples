@@ -16,13 +16,13 @@
 
 {% block content %}
     <section>
-        <div class="container vh-50 py-4">
-            <div class="row vh-50 ">
+        <div class="container vh-100 py-4">
+            <div class="row">
                 <div class="col-lg-10">
                     <h1>{{ post.title }}</h1>
-                    <p>Written on: {{ post.date_created|date:"D d M Y" }} </p>
+                    <p class="date">Written on: {{ post.date_created|date:"D d M Y" }} </p>
                     {% if post.date_created != post.date_modified %}
-                        <p>Last modified: {{ post.date_modified }}</p>
+                        <p class="date">Last modified: {{ post.date_modified }}</p>
                     {% endif %}
 
                     {{ post.body|safe }}
