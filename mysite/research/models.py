@@ -37,6 +37,9 @@ class Article(models.Model):
                                          upload_to='research/%Y/')
     link =              models.URLField(max_length=200, blank=True)
 
+    def __str__(self):
+        return f'{self.title}, {self.year_published}, {[str(author) for author in self.authors.all()]}'
+
 
 
 
