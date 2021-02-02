@@ -2,7 +2,18 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
+class PublishedManager(models.Manager):
+    """ A custom manager that gets only published posts. """
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
+
+
 class Post(models.Model):
+
+    # set query managers.
+    objects = models.Manager()  # default
+    published = PublishedManager()
 
     STATUS_CHOICES = (
         ('draft', 'Draft'),
