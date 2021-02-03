@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from taggit.managers import TaggableManager
+
 
 class PublishedManager(models.Manager):
     """ A custom manager that gets only published posts. """
@@ -29,6 +31,7 @@ class Post(models.Model):
     created =       models.DateTimeField(auto_now_add=True)         # when the post was first created.
     updated =       models.DateTimeField(auto_now=True)             # when the post was last updated.
     status =        models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+    tags =          TaggableManager()   # Tags associated with posts.
 
     class Meta:
         ordering = ('-publish',)
