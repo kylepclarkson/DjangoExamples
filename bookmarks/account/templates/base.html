@@ -29,6 +29,17 @@
         <a href="{% url 'login' %}">Login</a>
     {% endif %}
     </span>
+
+{# display Django messages #}
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}<a href="#" class="close">x</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div>
     {% block content %}
 

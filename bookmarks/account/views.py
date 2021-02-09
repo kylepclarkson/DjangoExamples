@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
@@ -89,6 +90,10 @@ def edit(request):
             # update the user and their profile.
             user_form.save()
             profile_form.save()
+            messages.success(request, 'Profile updated successfully')
+        else:
+            # display error message
+            messages.error(request, 'Error updating your profile')
     elif request.method == 'GET':
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user)
