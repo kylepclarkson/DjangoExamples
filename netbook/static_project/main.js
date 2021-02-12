@@ -1,5 +1,9 @@
-
-    $(document).ready(function()
-    {
-        console.log("Its working from main.js")
+$(document).ready(function () {
+    $('#modal-btn').click(function () {
+        $('.ui.modal')
+            .modal('show');
     })
+})
+
+
+
