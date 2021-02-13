@@ -53,7 +53,8 @@ class Profile(models.Model):
         return f"{self.user.username}--created:{self.created.strftime('%d-%m-%y')}"
 
     def save(self, *args, **kwargs):
-        """ Save Profile. """
+        """ Create a slug using the first and last name of the user,
+          along with random characters if a slug with this name already exists. """
         exists = False
 
         if self.first_name and self.last_name:
