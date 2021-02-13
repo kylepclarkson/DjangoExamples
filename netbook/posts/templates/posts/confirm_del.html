@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete Post
+{% endblock %}
+
+{% block content %}
+    {# if messages, user is attempting to delete a post not belonging to them #}
+    {% if messages %}
+        {% for message in messages %}
+            {% if 'warning' in message.tags %}
+                <div class="ui negative message">
+                    <div class="header">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="ui segement">
+            <h3>Delete Post?</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <p>Are you sure you want to delete the post?</p>
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% endif %}
+
+
+{% endblock %}

@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.contrib import messages
 
 from .models import Post, Like
 from .forms import PostModelForm, CommentModelForm
@@ -79,4 +82,39 @@ def like_unlike_post(request):
         like.save()
 
     return redirect('posts:main-post-view')
+
+
+class PostDeleteView(DeleteView):
+    """ Delete a post using its pk"""
+
+    model = Post
+    template_name = 'posts/confirm_del.html'
+    success_url = reverse_lazy('posts:main-post-view')
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        obj = Post.objects.get(pk=pk)
+
+        if not obj.author.user == self.request.user:
+            messages.warning(self.request, 'Only the author of the post may delete it.')
+        return obj
+
+
+class PostUpdateView(UpdateView):
+
+    form_class = PostModelForm
+    model = Post
+    template_name = 'posts/update.html'
+    success_url = reverse_lazy('posts:main-post-view')
+
+    def form_valid(self, form):
+        profile = Profile.objects.get(user=self.request.user)
+        if form.instance.author == profile:
+            # form can be updated
+            return super().form_valid(form)
+        else:
+            # Add non-field error to form
+            form.add_error(None, "Only the author of the post may update it.")
+            return super().form_valid(form)
+
 
