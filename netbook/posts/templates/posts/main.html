@@ -15,6 +15,7 @@
                             {{ obj.content }}
                         </div>
                         <div class="content">
+                            {# like/unlike form #}
                             <form action="{% url 'posts:like-post-view' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="post_id" value="{{ obj.id }}">
@@ -27,13 +28,40 @@
                                 </button>
                                 &nbsp;{{ obj.num_likes }}
                             </form>
+                            {# end like/unlike form #}
                         </div>
                     </div>
+                    <div class="">
+                    {% if obj.comment_set.all %}
+                        {% for comment in obj.comment_set.all %}
+                            <p>{{ comment.body }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    {# comment form #}
+                    <form action="" method="POST" class="ui form">
+                        {% csrf_token %}
+                        {# attach id of post comment is on to request.  #}
+                        <input type="hidden" name="post_id" value="{{ obj.id }}">
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="ui button primary" name="submit_comment_form">Comment</button>
+                    </form>
+                    {# end comment form #}
                 {% endfor %}
             </div>
             <div class="five wide column">
-                FORM
-                {{ profile }}
+                {% if post_added %}
+                    <div class="ui green message">
+                        Post Added
+                    </div>
+                {% endif %}
+                {# Post form #}
+                <form action="" method="POST" class="ui form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ post_form.as_p }}
+                    <button type="submit" class="ui button positive" name="submit_post_form">Send Post</button>
+                </form>
+                {# end post form #}
             </div>
         </div>
     </div>
