@@ -24,6 +24,31 @@ class Profile(models.Model):
     def get_friends_count(self):
         return self.friends.all().count()
 
+    def get_posts_count(self):
+        # use reverse relationship. Use related_name field of author in Post model.
+        return self.posts.all().count()
+
+    def get_all_authors_posts(self):
+        return self.posts.all()
+
+    def get_likes_given_count(self):
+        # return number of likes user has given.
+        likes = self.like_set.all()
+        total_liked = 0
+        for item in likes:
+            if item.value == 'like':
+                total_liked += 1
+
+        return total_liked
+
+    def get_likes_received_count(self):
+        posts = self.posts.all()
+        total_liked = 0
+        for post in posts:
+            total_liked += post.liked.all().count()
+
+        return total_liked
+
     def __str__(self):
         return f"{self.user.username}--created:{self.created.strftime('%d-%m-%y')}"
 

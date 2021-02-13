@@ -82,6 +82,18 @@
                                 </ul>
                             </td>
                         </tr>
+                        <tr>
+                            <td>Number of posts</td>
+                            <td>{{ profile.get_posts_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Number of likes given</td>
+                            <td>{{ profile.get_likes_given_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Number of likes received</td>
+                            <td>{{ profile.get_likes_received_count }}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
