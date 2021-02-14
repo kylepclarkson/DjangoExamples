@@ -1,8 +1,35 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 from .utils import get_random_code
+
+
+class ProfileManager(models.Manager):
+
+    def get_all_profiles(self, me):
+        """ Returns all profiles that are not the user. """
+        profiles = Profile.objects.all().exclude(user=me)
+        return profiles
+
+    def get_all_profiles_to_invite(self, sender):
+        """ Returns all profiles that can be invited (where a relationship does not currently exist.)"""
+        profiles = self.get_all_profiles(sender)
+        profile = Profile.objects.get(user=sender)
+        # Get all relationships where the user is either the sender or receiver.
+        qs = Relationship.objects.filter(Q(sender=profile) | Q(receiver=profile))
+        # exclude relationship that have been accepted.
+        accepted = set([])
+        for relationship in qs:
+            if relationship.status == 'accepted':
+                accepted.add(relationship.receiver)
+                accepted.add(relationship.sender)
+
+        available = [profile for profile in profiles
+                        if profile not in accepted]
+        return available
+
 
 class Profile(models.Model):
     """ A profile of a user. Uses Django's user model. """
@@ -17,6 +44,8 @@ class Profile(models.Model):
     slug        =       models.SlugField(unique=True, blank=True)
     updated     =       models.DateTimeField(auto_now=True)
     created     =       models.DateTimeField(auto_now_add=True)
+
+    objects = ProfileManager()
 
     def get_friends(self):
         return self.friends.all()
@@ -75,6 +104,15 @@ STATUS_CHOICES = (
     ('accepted', 'accepted')
 )
 
+
+class RelationshipManager(models.Manager):
+
+    def invitations_received(self, receiver):
+        """ Retrieves all invitations that a user has received"""
+        qs = Relationship.objects.filter(receiver=receiver, status='send')
+        return qs
+
+
 class Relationship(models.Model):
     """ A directed interaction between two users (using their profiles)"""
     sender      =       models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
@@ -83,5 +121,7 @@ class Relationship(models.Model):
     updated     =       models.DateTimeField(auto_now=True)
     created     =       models.DateTimeField(auto_now_add=True)
 
+    objects  = RelationshipManager()
+
     def __str__(self):
-        return f'{self.sender}--{self.receiver}--{self.status}'
+        return f'sender: {self.sender} receiver: {self.receiver}--{self.status}'
