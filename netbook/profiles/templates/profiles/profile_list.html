@@ -5,9 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <ul>
-        {% for item in qs %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
+    {% if is_empty %}
+        No Profiles!
+    {% endif %}
+
+    {# display profiles #}
+    {% for obj in object_list %}
+
+    {% endfor %}
 {% endblock %}

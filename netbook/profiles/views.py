@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from django.contrib.auth.models import User
 
 from.forms import ProfileModelForm
 from .models import Profile, Relationship
@@ -36,14 +38,48 @@ def invites_received_view(request):
     return render(request, 'profiles/my_invites.html', context)
 
 
-def profiles_list_view(request):
-    qs = Profile.objects.get_all_profiles(request.user)
+# def profiles_list_view(request):
+#     qs = Profile.objects.get_all_profiles(request.user)
+#
+#     context = {
+#         'qs': qs
+#     }
+#
+#     return render(request, 'profiles/profile_list.html', context)
 
-    context = {
-        'qs': qs
-    }
+class ProfileListView(ListView):
+    model = Profile
+    template_name = 'profiles/profile_list.html'
+    context_object_name = 'qs'
 
-    return render(request, 'profiles/profile_list.html', context)
+    def get_queryset(self):
+        qs = Profile.objects.get_all_profiles(self.request.user)
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """ Add additional data to context """
+        context = super().get_context_data(**kwargs)
+        # Get user of session
+        user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+        # Get relationships of user.
+        relationship_receiver = Relationship.objects.filter(sender=profile)
+        relationship_sender = Relationship.objects.filter(receiver=profile)
+        rel_receiver = []
+        rel_sender = []
+        for item in relationship_receiver:
+            rel_receiver.append(item.receiver.user)
+        for item in relationship_sender:
+            rel_sender.append(item.receiver.user)
+
+        context['rel_receiver'] = rel_receiver
+        context['rel_sender'] = rel_sender
+        context['is_empty'] = False
+        # Get if no other profiles exists.
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+
+        return context
 
 
 def invites_profiles_list_view(request):
