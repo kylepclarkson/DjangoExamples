@@ -11,6 +11,48 @@
 
     {# display profiles #}
     {% for obj in object_list %}
-
+        <div class="ui segment">
+            <div class="ui grid">
+                <div class="row">
+                    {# profile image #}
+                    <div class="three wide column">
+                        <img class="ui small circular image" src="{{ obj.avatar.url }}">
+                    </div>
+                    <div class="thirteen wide column">
+                        <h3>{{ obj.user }}</h3>
+                        <p>{{ obj.bio }}</p>
+                        <button class="ui primary button">See Profile</button>
+                        {# adding to friends #}
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value="{{ obj.pk }}"/>
+                            {# user is not have relationship with this obj person; show button to make friends #}
+                            {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
+                                <button type="submit" class="ui positive basic button">
+                                    <i class="plus square icon"></i>Add to Friends
+                                </button>
+                            {% endif %}
+                        </form>
+                        {# request user has sent friend request but is not yet their friend. #}
+                        {% if obj.user in rel_receiver and request.user not in obj.friends.all %}
+                            <button type="submit" class="ui disabled button">
+                                <i class="user icon"></i>Waiting for approval
+                            </button>
+                        {% endif %}
+                        {# removing from friends #}
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value="{{ obj.pk }}"/>
+                            {# request user is friends with obj user #}
+                            {% if request.user in obj.friends.all %}
+                                <button type="submit" class="ui negative basic button">
+                                    <i class="negative square icon"></i>Remove from Friends
+                                </button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}
