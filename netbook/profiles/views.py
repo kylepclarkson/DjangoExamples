@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 from django.db.models import Q
 
@@ -43,7 +43,7 @@ def invites_received_view(request):
 
 
 def accept_invitation(request):
-
+    """ Change relationship status to accepted """
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
         sender = Profile.objects.get(pk=pk)
@@ -58,7 +58,7 @@ def accept_invitation(request):
 
 
 def reject_invitation(request):
-
+    """ Delete relationship from database. """
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
         sender = Profile.objects.get(pk=pk)
@@ -78,6 +78,41 @@ def reject_invitation(request):
 #     }
 #
 #     return render(request, 'profiles/profile_list.html', context)
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = 'profiles/detail.html'
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug')
+        print(f"slug: {slug}")
+        print(f"kw args: {self.kwargs}")
+        profile = Profile.objects.get(slug=slug)
+        return profile
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """ Add additional data to context """
+        context = super().get_context_data(**kwargs)
+        # Get user of session
+        user = User.objects.get(username__iexact=self.request.user)
+        profile = Profile.objects.get(user=user)
+        # Get relationships of user.
+        relationship_receiver = Relationship.objects.filter(sender=profile)
+        relationship_sender = Relationship.objects.filter(receiver=profile)
+        rel_receiver = []
+        rel_sender = []
+        for item in relationship_receiver:
+            rel_receiver.append(item.receiver.user)
+        for item in relationship_sender:
+            rel_sender.append(item.receiver.user)
+
+        context['rel_receiver'] = rel_receiver
+        context['rel_sender'] = rel_sender
+        context['posts'] = self.get_object().get_all_authors_posts()
+        context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
+
+        return context
+
 
 class ProfileListView(ListView):
     model = Profile

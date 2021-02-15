@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
@@ -47,6 +48,17 @@ class Profile(models.Model):
 
     objects = ProfileManager()
 
+    __initial_first_name = None
+    __initial_last_name = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__initial_first_name = self.first_name
+        self.__initial_last_name = self.last_name
+
+    def get_absolute_url(self):
+        return reverse("profiles:profile-detail-view", kwargs={"slug": self.slug})
+
     def get_friends(self):
         return self.friends.all()
 
@@ -84,18 +96,21 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         """ Create a slug using the first and last name of the user,
           along with random characters if a slug with this name already exists. """
-        exists = False
-
-        if self.first_name and self.last_name:
-            # create slug using first and last name. Check if slug already exists.
-            to_slug = slugify(str(self.first_name) + " " + str(self.last_name))
-            exists = Profile.objects.filter(slug=to_slug).exists()
-            while exists:
-                to_slug = slugify(to_slug + " " + str(get_random_code()))
+        to_slug = self.slug
+        print(f'save slug before: {self.slug}')
+        if self.first_name != self.__initial_first_name or self.last_name != self.__initial_last_name or self.slug == "":
+            if self.first_name and self.last_name:
+                # create slug using first and last name. Check if slug already exists.
+                to_slug = slugify(str(self.first_name) + " " + str(self.last_name))
                 exists = Profile.objects.filter(slug=to_slug).exists()
+                while exists:
+                    to_slug = slugify(to_slug + " " + str(get_random_code()))
+                    exists = Profile.objects.filter(slug=to_slug).exists()
         else:
             to_slug = str(self.user)
         self.slug = to_slug
+
+        print(f'save slug after: {self.slug}')
         super().save(*args, **kwargs)
 
 
