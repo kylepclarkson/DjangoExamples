@@ -151,6 +151,14 @@ STATIC_ROOT = BASE_DIR / 'static_cdn' / 'static_root'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'static_cdn' / 'media_root'
 
-# LOGIN_URL = 'admin/'
-LOGIN_REDIRECT_URL = 'posts/'
+# LOGIN_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/posts/'
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_UNIQUE = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# email backend
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
