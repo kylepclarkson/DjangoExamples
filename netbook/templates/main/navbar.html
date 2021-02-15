@@ -1,3 +1,4 @@
+{# paths #}
 {% url 'home-view' as path_to_home %}
 {% url 'posts:main-post-view' as path_to_posts %}
 {% url 'profiles:my-profile-view' as path_to_my_profile %}
@@ -45,7 +46,7 @@
             </div>
 
             <a href="{{path_to_my_profile}}" class="{% if request.path == path_to_my_profile %}active{% endif %} item">
-                <img class="ui image avatar" src={{picture.url}}>&nbsp;
+{#                <img class="ui avatar image" src={{request.user.profile.url}}>&nbsp;#}
                  {{ request.user }}
             </a>
 

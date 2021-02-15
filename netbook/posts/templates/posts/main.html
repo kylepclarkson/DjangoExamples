@@ -53,7 +53,7 @@
                                         <div class="like-count{{ obj.id }}"> {{ obj.num_likes }} </div>
                                     </div>
                                     <div class="column">
-                                        likes
+                                        {% if obj.num_likes == 1 %} like {% else %} likes {% endif %}
                                     </div>
                                 </div>
                             </form>
@@ -159,7 +159,6 @@
                         console.log('error', response)
                     }
                 })
-
             })
         });
     </script>

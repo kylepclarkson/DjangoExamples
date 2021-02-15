@@ -2,14 +2,18 @@ from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 from .models import Post, Like
 from .forms import PostModelForm, CommentModelForm
 from profiles.models import Profile
 
 
+@login_required
 def post_comment_create_list_view(request):
-    """ Handles """
+    """ Get user's profile """
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
 
@@ -81,10 +85,16 @@ def like_unlike_post(request):
         post_obj.save()
         like.save()
 
+        data = {
+            'value': like.value,
+            'likes': post_obj.liked.all().count(),
+        }
+        return JsonResponse(data, safe=False)
+
     return redirect('posts:main-post-view')
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     """ Delete a post using its pk"""
 
     model = Post
@@ -100,7 +110,7 @@ class PostDeleteView(DeleteView):
         return obj
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
 
     form_class = PostModelForm
     model = Post

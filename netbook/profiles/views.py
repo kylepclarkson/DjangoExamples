@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 from.forms import ProfileModelForm
 from .models import Profile, Relationship
 
+
+@login_required
 def my_profile_view(request):
     """ Render user's profile"""
     profile = Profile.objects.get(user=request.user)
@@ -28,6 +32,8 @@ def my_profile_view(request):
     return render(request, 'profiles/myprofile.html', context)
 
 
+
+@login_required
 def invites_received_view(request):
     profile = Profile.objects.get(user=request.user)
     qs = Relationship.objects.invitations_received(receiver=profile)
@@ -42,6 +48,8 @@ def invites_received_view(request):
     return render(request, 'profiles/my_invites.html', context)
 
 
+
+@login_required
 def accept_invitation(request):
     """ Change relationship status to accepted """
     if request.method == 'POST':
@@ -57,6 +65,7 @@ def accept_invitation(request):
     return redirect('profiles:my-invites-view')
 
 
+@login_required
 def reject_invitation(request):
     """ Delete relationship from database. """
     if request.method == 'POST':
@@ -79,14 +88,12 @@ def reject_invitation(request):
 #
 #     return render(request, 'profiles/profile_list.html', context)
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'profiles/detail.html'
 
     def get_object(self, queryset=None):
         slug = self.kwargs.get('slug')
-        print(f"slug: {slug}")
-        print(f"kw args: {self.kwargs}")
         profile = Profile.objects.get(slug=slug)
         return profile
 
@@ -114,7 +121,7 @@ class ProfileDetailView(DetailView):
         return context
 
 
-class ProfileListView(ListView):
+class ProfileListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
     context_object_name = 'qs'
@@ -149,6 +156,7 @@ class ProfileListView(ListView):
         return context
 
 
+@login_required
 def invites_profiles_list_view(request):
     qs = Profile.objects.get_all_profiles_to_invite(request.user)
     context = {
@@ -158,6 +166,7 @@ def invites_profiles_list_view(request):
     return render(request, 'profiles/to_invite_list.html', context)
 
 
+@login_required
 def send_invitation(request):
     """ The user has sent a friend request."""
     if request.method == 'POST':
@@ -174,6 +183,7 @@ def send_invitation(request):
     return redirect('profiles:my-profile-view')
 
 
+@login_required
 def remove_from_friends(request):
     """ Remove the friends request. Does not know who the sender/receiver is. """
     if request.method == 'POST':
