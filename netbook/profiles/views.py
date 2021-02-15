@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -31,12 +31,43 @@ def my_profile_view(request):
 def invites_received_view(request):
     profile = Profile.objects.get(user=request.user)
     qs = Relationship.objects.invitations_received(receiver=profile)
-
+    # get the users that sent the friendship requests
+    results = list(map(lambda x: x.sender, qs))
+    is_empty = True if len(results) == 0 else False
     context = {
-        'qs': qs
+        'qs': results,
+        'is_empty': is_empty,
     }
 
     return render(request, 'profiles/my_invites.html', context)
+
+
+def accept_invitation(request):
+
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+
+        relationship = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        if relationship.status == 'send':
+            relationship.status = 'accepted'
+            relationship.save()
+
+    return redirect('profiles:my-invites-view')
+
+
+def reject_invitation(request):
+
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user=request.user)
+
+        relationship = get_object_or_404(Relationship, sender=sender, receiver=receiver)
+        relationship.delete()
+
+    return redirect('profiles:my-invites-view')
 
 
 # def profiles_list_view(request):
