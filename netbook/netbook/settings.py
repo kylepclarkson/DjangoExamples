@@ -34,6 +34,15 @@ INSTALLED_APPS = [
     'posts',
     'profiles',
 
+    # Django-allauth: The following apps are required:
+    # 'django.contrib.auth',
+    # 'django.contrib.messages',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +86,12 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 WSGI_APPLICATION = 'netbook.wsgi.application'
 
 
@@ -134,6 +151,6 @@ STATIC_ROOT = BASE_DIR / 'static_cdn' / 'static_root'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'static_cdn' / 'media_root'
 
-LOGIN_URL = 'admin/'
-
+# LOGIN_URL = 'admin/'
+LOGIN_REDIRECT_URL = 'posts/'
 

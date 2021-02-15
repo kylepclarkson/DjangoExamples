@@ -10,6 +10,7 @@ urlpatterns = [
     path('', home_view, name='home-view'),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('posts/', include('posts.urls', namespace='posts')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 # location where static files will be collected.
