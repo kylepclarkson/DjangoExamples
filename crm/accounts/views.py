@@ -1,12 +1,35 @@
 from django.shortcuts import render
 
+from .models import Customer, Product, Order
+
 
 def home(request):
-    return render(request, 'accounts/dashboard.html')
+
+    orders = Order.objects.all()
+    customers = Customer.objects.all()
+    total_customers = customers.count()
+    total_order = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+
+    context = {
+        'orders': orders,
+        'customers': customers,
+        'total_customers': total_customers,
+        'total_order': total_order,
+        'delivered': delivered,
+        'pending': pending,
+    }
+
+    return render(request, 'accounts/dashboard.html', context)
 
 
 def products(request):
-    return render(request, 'accounts/products.html')
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request, 'accounts/products.html', context)
 
 
 def customer(request):
