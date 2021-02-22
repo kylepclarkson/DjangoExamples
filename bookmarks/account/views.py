@@ -33,14 +33,14 @@ def user_login(request):
 
                 else:
                     # User is not active.
-                    return HttpResponse('Disabled account')
+                    return HttpResponse('Disabled accounts')
 
             else:
                 # password does not match username.
                 return HttpResponse('Invalid Login')
 
     return render(request,
-                  'account/login.html',
+                  'accounts/login.html',
                   {'form': form})
 
 
@@ -48,7 +48,7 @@ def user_login(request):
 def dashboard(request):
     # define section variable to track where the user is.
     return render(request,
-                  'account/dashboard.html',
+                  'accounts/dashboard.html',
                   {'section': 'dashboard'})
 
 
@@ -68,17 +68,17 @@ def register(request):
             Profile.objects.create(user=new_user)
 
             return render(request,
-                          'account/register_done.html',
+                          'accounts/register_done.html',
                           {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request,
-                'account/register.html',
+                'accounts/register.html',
                 {'user_form': user_form})
 
 
 def edit(request):
-    """ Allows users to update their account. """
+    """ Allows users to update their accounts. """
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user,
                                  data=request.POST)
@@ -99,7 +99,7 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user)
 
     return render(request,
-                  'account/edit.html',
+                  'accounts/edit.html',
                   {'user_form': user_form,
                     'profile_form': profile_form})
 

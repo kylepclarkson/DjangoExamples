@@ -8,13 +8,13 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 def register(request):
     """ Form to create new user. """
     if request.method == 'POST':
-        # User is creating account.
+        # User is creating accounts.
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             # Save contents of form to database.
             form.save()
             username = form.cleaned_data.get('username')
-            # Flash message to user that account is being created.
+            # Flash message to user that accounts is being created.
             messages.success(request, f'Account created! Please log in!')
             # Redirect user
             return redirect('blog-home')
