@@ -10,3 +10,4 @@ def home_view(request):
         'hello': hello
     }
     return render(request, 'main/home.html', context)
+

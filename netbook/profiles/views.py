@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
-from.forms import ProfileModelForm
+from .forms import ProfileModelForm
 from .models import Profile, Relationship
 
 

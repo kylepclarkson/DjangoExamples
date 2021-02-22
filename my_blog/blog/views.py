@@ -8,6 +8,7 @@ from taggit.models import Tag
 from .forms import SearchForm
 from .models import Post
 
+
 class PostListView(ListView):
     queryset = Post.published.all()
     context_object_name = 'posts'

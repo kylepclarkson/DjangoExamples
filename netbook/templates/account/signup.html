@@ -9,7 +9,7 @@
     </p>
     <div class="ui grid">
         <div class="six wide column">
-            <form class="signup ui form" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            <form class="signup ui form" id="signup_form" method="post" action="{% url 'account_email_verification_sent' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 {% if redirect_field_value %}

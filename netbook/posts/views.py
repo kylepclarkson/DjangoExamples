@@ -13,7 +13,7 @@ from profiles.models import Profile
 
 @login_required
 def post_comment_create_list_view(request):
-    """ Get user's profile """
+    """ Create new post or comment view """
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
 
@@ -23,8 +23,8 @@ def post_comment_create_list_view(request):
     # a post was created via the form
     post_added = False
 
-    # name specified in html
     if 'submit_post_form' in request.POST:
+        """ Create new post """
         post_form = PostModelForm(request.POST, request.FILES)  # pass request files for image.
         if post_form.is_valid():
             # save form. Set author of update as request user.
@@ -32,15 +32,18 @@ def post_comment_create_list_view(request):
             instance.author = profile
             instance.save()
             post_added = True
+            # clear post form
             post_form = PostModelForm()
 
     if 'submit_comment_form' in request.POST:
+        """ Create new comment """
         comment_form = CommentModelForm(request.POST)
         if comment_form.is_valid():
             instance = comment_form.save(commit=False)
             instance.user = profile
             instance.post = Post.objects.get(id=request.POST.get('post_id'))
             instance.save()
+            # clear comment form
             comment_form = CommentModelForm()
 
 
@@ -56,6 +59,7 @@ def post_comment_create_list_view(request):
 
 
 def like_unlike_post(request):
+    """ like / unlike post. """
     user = request.user
 
     if request.method == 'POST':

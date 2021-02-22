@@ -27,8 +27,9 @@ class ProfileManager(models.Manager):
                 accepted.add(relationship.receiver)
                 accepted.add(relationship.sender)
 
-        available = [profile for profile in profiles
-                        if profile not in accepted]
+        available = [profile
+                     for profile in profiles
+                     if profile not in accepted]
         return available
 
 
