@@ -9,7 +9,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path('home/', home, ),
-    path('products/', products),
-    path('customer/', customer)
+    path('home/', home, name='home'),
+    path('products/', products, name='products'),
+    path('customer/<str:pk>', customer, name='customer'),
 ]
