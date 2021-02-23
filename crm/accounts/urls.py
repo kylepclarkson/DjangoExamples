@@ -12,11 +12,13 @@ from .views import (
     updateOrder,
     deleteOrder,
     logoutUser,
+    userPage
 )
 
 urlpatterns = [
     path('', home, ),
     path('home/', home, name='home'),
+    path('user/', userPage, name='user-page'),
     path('login/', loginPage, name='login'),
     path('logout/', logoutUser, name='logout'),
     path('register/', registerPage, name='register'),
