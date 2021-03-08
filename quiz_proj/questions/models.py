@@ -2,8 +2,6 @@ from django.db import models
 from quizes.models import Quiz
 
 
-# Create your models here.
-
 class Question(models.Model):
 
     text = models.CharField(max_length=200)

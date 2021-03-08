@@ -23,3 +23,6 @@ class Quiz(models.Model):
     def get_questions(self):
         """ Get all questions in this quiz (using reverse relationship) """
         return self.question_set.all()
+
+    class Meta:
+        verbose_name_plural = 'Quizes'
