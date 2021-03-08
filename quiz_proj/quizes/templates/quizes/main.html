@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'quizes/main.js' %}" defer></script>
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    Quiz List
+    <br>
+    <!-- Modal -->
+    <div class="modal fade" id="quizStartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to start?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body-confirm">
+                    {# display info about quiz #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Not yet</button>
+                    <button type="button" id=start-btn" class="btn btn-success">Yes!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="h1">Quiz List</div>
+    <hr>
+    {% for object in object_list %}
+        <!-- Button trigger modal -->
+        <button
+                class="btn btn-link modal-button"
+                data-pk="{{ object.pk }}"   {# allows us to grab pk with JS. Define custom attributes #}
+                data-quiz="{{ object.name }}"
+                data-questions="{{ object.number_of_questions }}"
+                data-difficulty="{{ object.difficulty }}"
+                data-time="{{ object.time }}"
+                data-pass="{{ object.required_score_to_pass }}"
+                data-toggle="modal"
+                data-target="#quizStartModal">
+            {{ object.name }}
+        </button>
+        <br>
+    {% endfor %}
+
+{% endblock %}
