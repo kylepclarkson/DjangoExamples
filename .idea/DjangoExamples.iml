@@ -17,7 +17,6 @@
       <sourceFolder url="file://$MODULE_DIR$/BuildingAnAPI" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/personal_website" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/quiz_proj" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

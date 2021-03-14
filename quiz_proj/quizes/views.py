@@ -76,8 +76,6 @@ def save_quiz_view(request, pk):
                         if a.correct:
                             score += 1
                             correct_answer = a.text
-                    else:
-                        correct_answer = a.text
 
                 results.append({
                     str(q): {

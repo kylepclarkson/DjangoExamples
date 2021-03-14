@@ -3,7 +3,8 @@ const url = window.location.href;
 
 // the div to place questions.
 const quizBox = document.getElementById('quiz-box');
-// let data;
+const scoreBox = document.getElementById('score-box');
+const resultBox = document.getElementById('result-box');
 
 $.ajax({
     type: 'GET',
@@ -61,12 +62,53 @@ const sendData = () => {
         }
     });
 
+    // Pass data (questions and answers) to save view
     $.ajax({
         type: 'POST',
         url: `${url}save/`,
         data: data,
         success: function (response) {
-            console.log(response);
+            // console.log(response);
+            const results = response.results;
+            console.log(results)
+            quizForm.classList.add('not-visible');
+
+            scoreBox.innerHTML = `${response.passed ? 'You passed!' : "You failed!"} Your score is: ${response.score}%.`
+
+            // display results for each question
+            results.forEach(res => {
+                const resDiv = document.createElement("div");
+                for (const [question, response]  of Object.entries(res)) {
+                    // console.log(question)
+                    // console.log(response)
+
+                    resDiv.innerHTML += question
+                    // classes
+                    const cls = ['container', 'p-3', 'text-light', 'h3']
+                    resDiv.classList.add(...cls)
+
+                    if (response == 'not answered') {
+                        resDiv.innerHTML += '- not answered';
+                        resDiv.classList.add('bg-danger');
+                    } else {
+                        const answer = response['answered']
+                        const correct = response['correct_answer']
+
+                        if (answer == correct) {
+                            resDiv.classList.add('bg-success')
+                            resDiv.innerHTML += ` answered: ${answer}`
+                        } else {
+                            resDiv.classList.add('bg-danger')
+                            resDiv.innerHTML += ` | correct answer: ${correct}`
+                            resDiv.innerHTML += ` | answered: ${answer}`
+                        }
+                    }
+
+                    // add div to body
+                    // const body = document.getElementsByTagName('BODY')[0]
+                    resultBox.append(resDiv)
+                }
+            })
         },
         error: function (error) {
             console.log(error);
