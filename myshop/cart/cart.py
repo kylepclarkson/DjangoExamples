@@ -47,6 +47,10 @@ class Cart(object):
         del self.session[settings.CART_SESSION_ID]
         self.session_updated()
 
+    def get_total_price(self):
+        """ Return total price of shopping cart. """
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
     def __len__(self):
         """ Return the number of items in the cart """
         return sum(item['quantity'] for item in self.cart.values())
@@ -63,6 +67,7 @@ class Cart(object):
             # convert to decimal object.
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
+            yield item
 
     def session_updated(self):
         """ Mark session as updated so it gets saved. """

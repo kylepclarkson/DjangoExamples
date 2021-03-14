@@ -9,6 +9,14 @@ from .forms import CartAddProductForm
 def cart_detail(request):
     """ Get current cart. """
     cart = Cart(request)
+    # provide form to edit order quantity.
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(
+            initial={
+                'quantity': item['quantity'],
+                'override': True,
+            }
+        )
     return render(request, 'cart/detail.html', {'cart': cart})
 
 
