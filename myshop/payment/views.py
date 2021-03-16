@@ -8,6 +8,15 @@ from orders.models import Order
 
 # braintree gateway
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+print(f'Gateway:')
+
+
+def payment_done(request):
+    return render(request, 'payment/done.html')
+
+
+def payment_cancel(request):
+    return render(request, 'payment/canceled.html')
 
 
 def payment_process(request):
@@ -22,10 +31,10 @@ def payment_process(request):
         nonce = request.POST.get('payment_method_nonce', None)
         # create and submit transaction
         result = gateway.transaction.sale({
-            'account': f'{total_cost: 2f}',
-            'payment_method_nonce': nonce,
-            'options': {
-                'submit_for_settlement': True
+            "amount": f'{total_cost: 2f}',
+            "payment_method_nonce": nonce,
+            "options": {
+                "submit_for_settlement": True
             }
         })
 

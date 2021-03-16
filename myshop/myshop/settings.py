@@ -147,7 +147,7 @@ BRAINTREE_PRIVATE_KEY = keys.BRAINTREE_PRIVATE_KEY
 import braintree
 BRAINTREE_CONF = braintree.Configuration(
     braintree.Environment.Sandbox,
-    BRAINTREE_MERCHANT_ID,
-    BRAINTREE_PUBLIC_KEY,
-    BRAINTREE_PRIVATE_KEY,
+    merchant_id=BRAINTREE_MERCHANT_ID,
+    public_key=BRAINTREE_PUBLIC_KEY,
+    private_key=BRAINTREE_PRIVATE_KEY,
 )
