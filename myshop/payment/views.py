@@ -8,7 +8,6 @@ from orders.models import Order
 
 # braintree gateway
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
-print(f'Gateway:')
 
 
 def payment_done(request):
