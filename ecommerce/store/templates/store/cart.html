@@ -10,8 +10,8 @@
                 <br>
                 <table class="table">
                     <tr>
-                        <th><h5>Items: <strong>6</strong></h5></th>
-                        <th><h5>Total: <strong>$34</strong></h5></th>
+                        <th><h5>Items: <strong>{{ order.get_cart_items }}</strong></h5></th>
+                        <th><h5>Total: <strong>${{order.get_cart_total}}</strong></h5></th>
                         <th>
                             <a style="float: right; margin: 5px" href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
                         </th>
@@ -27,6 +27,23 @@
                     <div style="flex:1" ><strong>Quantity</strong></div>
                     <div style="flex:1" ><strong>Total</strong></div>
                 </div>
+                
+                {% for item in items %}
+                    <div class="cart-row">
+                        <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}" alt=""></div>
+                        <div style="flex:2">{{ item.product.name }}</div>
+                        <div style="flex:1">${{ item.product.price|floatformat:2 }}</div>
+                        <div style="flex:1">
+                            <p class="quantity">{{ item.quantity }}</p>
+                            <div class="quantity">
+                                <img src="{% static 'images/arrow-up.png' %}" alt="" class="chg-quantity">
+                                <img src="{% static 'images/arrow-down.png' %}" alt="" class="chg-quantity">
+                            </div>
+                        </div>
+                    <div style="flex:1">${{ item.get_total }}</div>
+                    </div>
+                {% endfor %}
+                
             </div>
         </div>
     </div>
