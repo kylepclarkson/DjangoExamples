@@ -148,6 +148,11 @@
             then((data) => {
                 console.log('Transaction complete.', data)
                 alert("Payment complete")
+
+                {# clear cookie cart after transaction completed #}
+                cart = {}
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
                 window.location.href = "{% url 'store' %}"
             })
         }
