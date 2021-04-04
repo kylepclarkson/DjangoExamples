@@ -67,6 +67,7 @@
 
     <script type="text/javascript">
         var shipping = '{{ order.shipping }}'
+        var total = '{{ order.get_cart_total}}'
         // note: string
         if (shipping == 'False') {
             // remove container
@@ -100,6 +101,50 @@
 
         function submitFormData() {
             console.log('Payment button clicked.')
+            var userFormData = {
+                'name': null,
+                'email': null,
+                'total': total,
+            }
+            var shippingInfo = {
+                'address': null,
+                'city': null,
+                'state': null,
+                'zipcode': null,
+            }
+
+            // set values that are present in forms
+            if (shipping != 'False') {
+                shippingInfo.address = form.address.value
+                shippingInfo.city = form.city.value
+                shippingInfo.state = form.state.value
+                shippingInfo.zipcode = form.zipcode.value
+            }
+
+            if (user == 'AnonymousUser') {
+                userFormData.email = form.email.value
+                userFormData.name = form.name.value
+            }
+
+            // submit form request.
+            var url = '/process_order/'
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    'form': userFormData,
+                    'shipping': shippingInfo,
+                })
+            }).
+            then((res) => res.json()).
+            then((data) => {
+                console.log('Transaction complete.', data)
+                alert("Payment complete")
+                window.location.href = "{% url 'store' %}"
+            })
         }
 
     </script>
