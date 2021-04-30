@@ -17,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/BuildingAnAPI" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/personal_website" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ecommerce" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lead_manager/lead_manager" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
