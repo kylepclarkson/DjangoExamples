@@ -3,6 +3,6 @@ keys.py
 .envs
 
 # === lead_manager ===
-lead_manager/node_modules
+leadmanager/node_modules
 
 # === lead_manager ===
