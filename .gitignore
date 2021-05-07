@@ -5,4 +5,8 @@ keys.py
 # === lead_manager ===
 leadmanager/node_modules
 
-# === lead_manager ===
+# === end lead_manager ===
+
+# === music controller ===
+music_controller/frontend/node_modules
+# === end music controller ===
