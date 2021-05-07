@@ -45,7 +45,8 @@ export class CreateRoomPage extends Component {
         // send to server, get response, convert to json, and log.
         fetch('/api/create-room', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        // redirect to room once created.
+        .then((data) => this.props.history.push('/room/' + data.code))
     }
     
     render() {
