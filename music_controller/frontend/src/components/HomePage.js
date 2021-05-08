@@ -16,6 +16,7 @@ export class HomePage extends Component {
         }
 
         // this.renderHomePage = this.renderHomePage.bind(this)
+        this.clearRoomCode = this.clearRoomCode.bind(this)
     }
 
     async componentDidMount() {
@@ -50,6 +51,13 @@ export class HomePage extends Component {
             </Grid>
         );
     }
+
+    clearRoomCode() {
+        // clear roomcode. 
+        this.setState({
+            roomCode: null,
+        })
+    }
     
     render() {
         return (
@@ -63,7 +71,12 @@ export class HomePage extends Component {
                     {/* Need to add to both React and Django */}
                     <Route path='/join' component={RoomJoinPage} />
                     <Route path='/create' component={CreateRoomPage} />
-                    <Route path='/room/:roomCode' component={Room} />
+                    <Route 
+                        path='/room/:roomCode' 
+                        render={(props) => {
+                            return <Room {...props} leaveRoomCallback={this.clearRoomCode} />
+                        }}
+                        />
                     
                 </Switch>
             </Router>
