@@ -24,7 +24,7 @@ class UpdateRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         # Note user id is stored as session id.
-        fields = ('guest_can_pause', 'votes_to_skip')
+        fields = ('guest_can_pause', 'votes_to_skip', 'code')
 
 
 

@@ -26,6 +26,7 @@ export default class Room extends Component {
     this.updateShowSettings = this.updateShowSettings.bind(this);
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
     this.renderSettings = this.renderSettings.bind(this);
+    this.getRoomDetails = this.getRoomDetails.bind(this)
   }
 
   // get Room details from api and set to state
@@ -94,7 +95,7 @@ export default class Room extends Component {
             votesToSkip={this.state.votesToSkip}
             guestCanPause={this.state.guestCanPause}
             roomCode={this.roomCode}
-            updateCallback={null}
+            updateCallback={this.getRoomDetails}
           />
         </Grid>
         <Grid item xs={12} align="center">
