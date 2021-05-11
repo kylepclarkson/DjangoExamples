@@ -142,7 +142,6 @@ export class CreateRoomPage extends Component {
       <Grid container spacing={1}>
           <Grid item xs={12} align="center">
               {/* Display message if it is present */}
-              <Alert severity="error">This is an error alert — check it out!</Alert>
               <Collapse 
                 in={this.state.errorMsg != "" || this.state.successMsg != ""}>
                 {this.state.successMsg != "" ? (

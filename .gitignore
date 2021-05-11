@@ -9,4 +9,5 @@ leadmanager/node_modules
 
 # === music controller ===
 music_controller/frontend/node_modules
+music_controller/spotify/credientials.py
 # === end music controller ===
