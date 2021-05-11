@@ -1,2 +1,2 @@
-CLIENT_ID = ""
+CLIENT_ID = "asdf"
 CLIENT_SECRET = ""
