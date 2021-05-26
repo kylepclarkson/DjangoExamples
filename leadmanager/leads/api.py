@@ -5,9 +5,16 @@ from .models import Lead
 
 
 class LeadViewSet(viewsets.ModelViewSet):
-    queryset = Lead.objects.all()
     permission_classes = [
-        permissions.AllowAny,
+        permissions.IsAuthenticated,
     ]
 
     serializer_class = LeadSerializer
+
+    # override. Get leads for user.
+    def get_queryset(self):
+        return self.request.user.leads.all()
+
+    # override. Create lead using user.
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)

@@ -29,8 +29,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'knox',
 
     'leads',
+    'accounts',
     # 'frontend',
 ]
 
@@ -124,3 +126,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', )
+}
