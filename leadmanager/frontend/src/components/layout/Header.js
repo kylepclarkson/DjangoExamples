@@ -1,31 +1,78 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { logout } from '../../actions/auth'
 
 export class Header extends Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+  };
+
   render() {
+    // if user is authenticated, do not show register/login
+    const { isAuthenticated, user } = this.props.auth;
+    const authLinks = (
+      <ul className="navbar-nav ms-auto mt-2 mt-lg-0 me-2">
+        <span className="navbar-text me-3">
+          <strong>{user ? `Welcome ${user.username}` : 'Welcome'}</strong>
+        </span>
+        <li className="nav-item">
+          <button 
+            className="nav-link btn btn-info btn-sm text-light"
+            onClick={this.props.logout}
+          >
+            Logout
+          </button>
+        </li>
+      </ul>
+    );
+
+    const nonAuthLinks = (
+      <ul className="navbar-nav ms-auto mt-2 mt-lg-0 me-2">
+        <li className="nav-item">
+          <Link to="/register" className="nav-link">
+            Register
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/login" className="nav-link">
+            Login
+          </Link>
+        </li>
+      </ul>
+    );
+
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarTogglerDemo01"
-          aria-controls="navbarTogglerDemo01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a className="navbar-brand ms-3" href="#">
-            Lead Manager
-          </a>
-          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-
-          </ul>
+        <div className="container">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a className="navbar-brand ms-3" href="#">
+              Lead Manager
+            </a>
+          </div>
+          { isAuthenticated ? authLinks : nonAuthLinks }
         </div>
       </nav>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Header);

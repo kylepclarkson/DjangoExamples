@@ -5,10 +5,12 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages'
 import { GET_LEADS, DELETE_LEAD, ADD_LEAD } from './types'
 
+import { tokenConfig } from './auth'
+
 // GET LEADS
 // The function to get all leads.
-export const getLeads = () => dispatch => {
-    axios.get('http://localhost:8000/api/leads/')
+export const getLeads = () => (dispatch, getState) => {
+    axios.get('http://localhost:8000/api/leads/', tokenConfig(getState))
     .then(res => {
         // dispatch to reducer
         console.log(res.data)
@@ -22,8 +24,8 @@ export const getLeads = () => dispatch => {
 
 // DELETE LEAD
 // The function to delete a lead. 
-export const deleteLead = (id) => dispatch => {
-    axios.delete(`http://localhost:8000/api/leads/${id}`)
+export const deleteLead = (id) => (dispatch, getState) => {
+    axios.delete(`http://localhost:8000/api/leads/${id}`, tokenConfig(getState))
     .then(res => {
         // dispatch to reducer
         console.log(res.data)
@@ -41,9 +43,8 @@ export const deleteLead = (id) => dispatch => {
 
 // ADD LEAD
 // Create a new lead from the form. 
-export const addLead = (lead) => dispatch => {
-    console.log('add lead')
-    axios.post('http://localhost:8000/api/leads/', lead)
+export const addLead = (lead) => (dispatch, getState) => {
+    axios.post('http://localhost:8000/api/leads/', lead,  tokenConfig(getState))
     .then(res => {
         // dispatch to reducer
         console.log(res.data)

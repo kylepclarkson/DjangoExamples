@@ -3,6 +3,8 @@ import { withAlert } from "react-alert";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+// Displays messages to user. 
+
 export class Alerts extends Component {
   static propTypes = {
     error: PropTypes.object.isRequired,
@@ -22,6 +24,12 @@ export class Alerts extends Component {
       if (error.msg.message) {
         alert.error(`Name: ${error.msg.message.join()}`);
       }
+      if (error.msg.non_field_errors) {
+        alert.error(error.msg.non_field_errors.join());
+      }
+      if (error.msg.username) {
+        alert.error(error.msg.username.join())
+      }
     }
 
     if (message !== prevProps.message) {
@@ -30,6 +38,9 @@ export class Alerts extends Component {
       }
       if (message.addLead) {
           alert.success(message.addLead);
+      }
+      if (message.passwordsNotMatch) {
+        alert.error(message.passwordsNotMatch)
       }
     }
   }
