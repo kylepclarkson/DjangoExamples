@@ -21,6 +21,7 @@ class MatchViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             if hasattr(self, 'detail_serializer_class'):
                 return self.detail_serializer_class
+        # default is MatchListSerializer
         return super().get_serializer_class()
 
     def get_queryset(self):
@@ -40,8 +41,8 @@ class MatchViewSet(viewsets.ModelViewSet):
         Parse request and create a new match or update its odds.
         """
         # print('Request')
-        # import json
-        # print(json.dumps(request.data, indent=4))
+        import json
+        print(json.dumps(request.data, indent=4))
         message = request.data.pop('message_type')
         if message == 'NewEvent':
             # Create new match.
@@ -57,6 +58,17 @@ class MatchViewSet(viewsets.ModelViewSet):
             # Create match
             match = Match.objects.create(**event, sport=sport, market=market)
             return Response(status=status.HTTP_201_CREATED)
+        elif message == 'UpdateSelection':
+            market = request.data.pop('market')[0]
+            match = Match.objects.get(id=request.data.pop('id'))
+
+            new_selection = request.data.pop('new_selection')
+            
+            for selection in match.market.selections.all():
+                selection.delete()    
+            match.market.selections.create(**new_selection)
+
+            return Response(status=status.HTTP_201_CREATED)
         elif message == 'UpdateOdds':
             # Update odds
             event = request.data.pop('event')
@@ -68,6 +80,15 @@ class MatchViewSet(viewsets.ModelViewSet):
                 s.save()
             match = Match.objects.get(id=event.get('id'))
             return Response(status=status.HTTP_201_CREATED)
+        elif message == 'UpdateSportName':
+            event = request.data.pop('event')
+            sport = event.pop('sport')
+            print("sport\n", sport)
+            sportUpdate = Sport.objects.get(id=sport.pop('id'))
+            sportUpdate.name = sport.pop('name')
+            sportUpdate.save()
+            return Response(status=status.HTTP_200_OK)
+
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
